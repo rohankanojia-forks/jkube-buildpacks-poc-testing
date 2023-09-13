@@ -1,0 +1,41 @@
+name: MacOS Build with Maven 
+
+env:
+  MAVEN_ARGS: -B -C -V -ntp -Dhttp.keepAlive=false -e
+  JKUBE_REPOSITORY: https://github.com/rohankanojia/jkube.git
+  JKUBE_REVISION: pr/buildpacks-build-strategy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: MacOS Build With Maven 
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        java: [17]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Setup Docker
+        uses: docker-practice/actions-setup-docker@master
+        timeout-minutes: 12 
+      - name: Clone JKUBE
+        run: |
+          rm -rf jkube \
+          && git clone "$JKUBE_REPOSITORY" --branch "$JKUBE_REVISION" jkube
+      - name: Install JKube
+        run: mvn ${MAVEN_ARGS} -f "jkube/pom.xml" clean install -DskipTests -Djacoco.skip=true
+      - name: Run Integration tests
+        run: |
+          cd maven-it
+          rm ./mvnw
+          mvn package k8s:build 

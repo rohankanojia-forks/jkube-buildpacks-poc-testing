@@ -1,0 +1,43 @@
+name: Windows Build with Maven 
+
+env:
+  MAVEN_ARGS: -B -C -V -ntp -Dhttp.keepAlive=false -e
+  JKUBE_REPOSITORY: https://github.com/rohankanojia/jkube.git
+  JKUBE_REVISION: pr/buildpacks-build-strategy
+  JKUBE_DIR: jkube
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Windows Build With Maven 
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        java: [17]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Clone JKube
+        run: |
+          git config --system core.longpaths true
+          git clone $env:JKUBE_REPOSITORY
+          cd $env:JKUBE_DIR
+          git checkout $env:JKUBE_REVISION
+      - name: Install JKube
+        run: |
+          cd $env:JKUBE_DIR
+          mvn -f pom.xml -B -DskipTests clean install
+      - name: Run Integration tests
+        run: |
+          cd maven-it
+          rm ./mvnw.cmd
+          mvn package k8s:build 
