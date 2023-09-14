@@ -41,7 +41,7 @@ jobs:
           mvn -f pom.xml -B -DskipTests clean install
       - name: Install and Run Integration Tests
         run: |
+          setx path "%path%;C:\Program Files\Docker\Docker"
+          ./DockerCli.exe -SwitchDaemon
           cd maven-it 
-          mvn clean install
-          mvn k8s:build -Djkube.build.strategy=docker
           mvn k8s:build 
