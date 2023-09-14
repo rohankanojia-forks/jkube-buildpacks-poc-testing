@@ -34,5 +34,5 @@ jobs:
       - name: Run Integration tests
         run: |
           cd maven-it
-          ls -lt /home/runner/.m2
+          chmod 777 /home/runner/.m2
           mvn package k8s:build 
