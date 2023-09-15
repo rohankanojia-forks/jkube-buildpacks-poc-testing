@@ -39,9 +39,11 @@ jobs:
         run: |
           cd $env:JKUBE_DIR
           mvn -f pom.xml -B -DskipTests clean install
+      - name: Switch Linux Daemon
+        run: |
+          cd C:\Program Files\Docker\Docker
+          ./DockerCli.exe -SwitchDaemon
       - name: Install and Run Integration Tests
         run: |
-          setx path "%path%;C:\Program Files\Docker\Docker"
-          ./DockerCli.exe -SwitchDaemon
           cd maven-it 
           mvn k8s:build 
