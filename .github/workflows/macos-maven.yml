@@ -25,9 +25,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-      - name: Setup Docker
-        uses: docker-practice/actions-setup-docker@master
-        timeout-minutes: 12 
+      - name: Set up Docker
+        uses: crazy-max/ghaction-setup-docker@v2
       - name: Clone JKUBE
         run: |
           rm -rf jkube \
@@ -36,6 +35,11 @@ jobs:
         run: mvn ${MAVEN_ARGS} -f "jkube/pom.xml" clean install -DskipTests -Djacoco.skip=true
       - name: Run Integration tests
         run: |
+          docker context ls
+          docker context use default
+          ls ~/.docker
+          ls ~/.docker/run
+          export DOCKER_HOST=unix://$HOME/.docker/run/docker.sock
           cd maven-it
           rm ./mvnw
           mvn package k8s:build 
