@@ -35,8 +35,7 @@ jobs:
         run: mvn ${MAVEN_ARGS} -f "jkube/pom.xml" clean install -DskipTests -Djacoco.skip=true
       - name: Run Integration tests
         run: |
-          docker context ls
-          docker context use default
+          export DOCKER_HOST=unix:///Users/runner/.colima/default/docker.sock
           cd gradle-it
           rm ./gradlew
           gradle clean build k8sBuild 
