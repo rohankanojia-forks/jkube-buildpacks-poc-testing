@@ -59,6 +59,41 @@
 
     <profiles>
         <profile>
+          <id>windows</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.springframework.boot</groupId>
+                      <artifactId>spring-boot-maven-plugin</artifactId>
+                  </plugin>
+                  <plugin>
+                      <groupId>org.eclipse.jkube</groupId>
+                      <artifactId>kubernetes-maven-plugin</artifactId>
+                      <version>${jkube.version}</version>
+                      <configuration>
+                        <images>
+                          <image>
+                            <name>%a:%v</name>
+                            <build>
+                              <buildpack>
+                                <builderImage>cnbs/sample-builder:nanoserver-2022</builderImage>
+                                <runImage>cnbs/sample-stack-run:nanoserver-2022</runImage>
+                              </buildpack>
+                            </build>
+                          </image>
+                        </images>
+                      </configuration>
+                  </plugin>
+
+                  <plugin>
+                      <groupId>org.eclipse.jkube</groupId>
+                      <artifactId>openshift-maven-plugin</artifactId>
+                      <version>${jkube.version}</version>
+                  </plugin>
+              </plugins>
+          </build>
+        </profile>
+        <profile>
             <id>native</id>
             <build>
                 <plugins>

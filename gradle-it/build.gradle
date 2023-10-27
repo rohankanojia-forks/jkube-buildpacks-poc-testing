@@ -26,3 +26,21 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+kubernetes {
+if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+    images {
+        image {
+            name = "%a:%l"
+            build {
+                buildpack {
+                    builderImage = "cnbs/sample-builder:nanoserver-2022"
+                    runImage = "cnbs/sample-stack-run:nanoserver-2022"
+                }
+            }
+        }
+    }
+}
+}
