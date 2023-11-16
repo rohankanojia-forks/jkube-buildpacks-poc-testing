@@ -15,7 +15,7 @@
 	<description>Demo project for Spring Boot3</description>
 	<properties>
 		<java.version>17</java.version>
-                <jkube.version>1.15-SNAPSHOT</jkube.version>
+                <jkube.version>1.16-SNAPSHOT</jkube.version>
                 <jkube.generator.name>rohankanojiabot/%a:%l</jkube.generator.name>
                 <jkube.build.strategy>buildpacks</jkube.build.strategy>
                 <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
