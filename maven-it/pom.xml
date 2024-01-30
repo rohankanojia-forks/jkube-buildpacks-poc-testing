@@ -35,6 +35,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-devtools</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
 	</dependencies>
 
 	<build>
@@ -42,17 +47,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+                                <configuration>
+                                    <excludeDevtools>false</excludeDevtools>
+                                </configuration>
 			</plugin>
                         <plugin>
                             <groupId>org.eclipse.jkube</groupId>
                             <artifactId>kubernetes-maven-plugin</artifactId>
                             <version>${jkube.version}</version>
+                            <configuration>
+                              <buildStrategy>buildpacks</buildStrategy>
+                            </configuration>
                         </plugin>
                         
                         <plugin>
                             <groupId>org.eclipse.jkube</groupId>
                             <artifactId>openshift-maven-plugin</artifactId>
                             <version>${jkube.version}</version>
+                            <configuration>
+                              <buildStrategy>buildpacks</buildStrategy>
+                            </configuration>
                         </plugin>
 		</plugins>
 	</build>
@@ -84,6 +98,7 @@
                                 <!--descriptor>${project.basedir}/target/project.toml</descriptor-->
                                 <lifecycleImage>buildpacksio/lifecycle:0.18.1</lifecycleImage>
                                 <env>
+                                  <BP_MAVEN_BUILT_ARTIFACT>target/spring-boot3-demo-jkube-0.0.1-SNAPSHOT.jar</BP_MAVEN_BUILT_ARTIFACT>
                                   <BP_SPRING_CLOUD_BINDINGS_DISABLED>true</BP_SPRING_CLOUD_BINDINGS_DISABLED>
                                   <BPL_SPRING_CLOUD_BINDINGS_DISABLED>true</BPL_SPRING_CLOUD_BINDINGS_DISABLED>
                                 </env>
