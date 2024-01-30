@@ -35,4 +35,3 @@ jobs:
         run: |
           cd maven-it
           mvn package k8s:build 
-          mvn k8s:build -Pcomplete

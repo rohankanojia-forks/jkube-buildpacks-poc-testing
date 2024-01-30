@@ -85,6 +85,7 @@
                           <image>
                             <name>rohankanojiabot/%a:%v</name>
                             <build>
+                              <!--
                               <buildpack>
                                 <publish>false</publish>
                                 <clearCache>true</clearCache>
@@ -93,9 +94,9 @@
                                 <pullPolicy>if-not-present</pullPolicy>
                                 <defaultProcess>web</defaultProcess>
                                 <path>${project.basedir}</path>
-                                <!--registry>docker.io</registry-->
+                                registry>docker.io</registry>
                                 <network>default</network>
-                                <!--descriptor>${project.basedir}/target/project.toml</descriptor-->
+                                <descriptor>${project.basedir}/target/project.toml</descriptor>
                                 <lifecycleImage>buildpacksio/lifecycle:0.18.1</lifecycleImage>
                                 <env>
                                   <BP_MAVEN_BUILT_ARTIFACT>target/spring-boot3-demo-jkube-0.0.1-SNAPSHOT.jar</BP_MAVEN_BUILT_ARTIFACT>
@@ -111,15 +112,11 @@
                                 </extensions>
                                 <volumes>
                                   <volume>/tmp/volume:/platform/volume:ro</volume>
-                                  <!--volume>test-volume:/platform/volume2:ro</volume-->
+                                  <volume>test-volume:/platform/volume2:ro</volume>
                                 </volumes>
                                 <workspace>/platform/application-overridden-dir</workspace>
-                                <!--cacheImage>rohankanojiabot/random-generator:latest</cacheImage-->
-                                <!--cache>type=launch;format=image;source=rohankanojiabot/random-generator:latest</cache-->
-                                <!--
-                                -->
-                                <!--
-                                -->
+                                <cacheImage>rohankanojiabot/random-generator:latest</cacheImage>
+                                <cache>type=launch;format=image;source=rohankanojiabot/random-generator:latest</cache>
                                 <tags>
                                   <tag>t1</tag>
                                   <tag>t2</tag>
@@ -130,15 +127,16 @@
                                 <sbomOutputDir>${project.build.directory}/sbom-output-dir</sbomOutputDir>
                                 <reportOutputDir>${project.build.directory}/buildpack-build-report.toml</reportOutputDir>
                                 <creationTime>1641013200</creationTime>
-                                <!--postBuildpacks>
+                                <postBuildpacks>
                                   <postBuildpack>paketobuildpacks/java-memory-assistant:latest</postBuildpack>
-                                </postBuildpacks-->
-                                <!--preBuildpacks>
+                                </postBuildpacks>
+                                <preBuildpacks>
                                   <preBuildpack>paketobuildpacks/appdynamics:latest</preBuildpack>
-                                </preBuildpacks-->
+                                </preBuildpacks>
                                 <builderImage>paketobuildpacks/builder:base</builderImage>
                                 <runImage>paketobuildpacks/run:base-cnb</runImage>
                               </buildpack>
+                              -->
                             </build>
                           </image>
                         </images>
@@ -170,10 +168,12 @@
                           <image>
                             <name>%a:%v</name>
                             <build>
+                              <!--
                               <buildpack>
                                 <builderImage>cnbs/sample-builder:nanoserver-2022</builderImage>
                                 <runImage>cnbs/sample-stack-run:nanoserver-2022</runImage>
                               </buildpack>
+                              -->
                             </build>
                           </image>
                         </images>
@@ -234,12 +234,14 @@
                               <image>
                                 <name>rohankanojiabot/%a-native:%v</name>
                                 <build>
+                                  <!--
                                   <buildpack>
                                     <builderImage>paketobuildpacks/builder:tiny</builderImage>
                                     <env>
                                       <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
                                     </env>
                                   </buildpack>
+                                  -->
                                 </build>
                               </image>
                             </images>

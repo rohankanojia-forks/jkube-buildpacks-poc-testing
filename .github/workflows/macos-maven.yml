@@ -39,4 +39,3 @@ jobs:
           cd maven-it
           rm ./mvnw
           mvn package k8s:build 
-          mvn k8s:build -Pcomplete
